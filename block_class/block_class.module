@@ -66,12 +66,14 @@ function block_class_preprocess_layout(&$variables) {
   $layout = $variables['layout'] ?? NULL;
   if (!empty($layout->getRegionNames())) {
     foreach ($layout->getRegionNames() as $region_name) {
+      if(!empty($variables['content'][$region_name]) && is_array($variables['content'][$region_name])) {
       foreach ($variables['content'][$region_name] as &$section_component) {
         if (isset($section_component['#block_class']['classes'])) {
           $classes = explode(' ', $section_component['#block_class']['classes']);
           $existing_classes = $section_component['#attributes']['class'] ?? [];
           $section_component['#attributes']['class'] = array_merge($existing_classes, $classes);
         }
+      }
       }
     }
   }
